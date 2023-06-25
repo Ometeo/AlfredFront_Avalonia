@@ -2,6 +2,6 @@
 {
     public class MainViewModel : ViewModelBase
     {
-        public string Title => "Alfred";
+        public static string Title => "Alfred";
     }
 }

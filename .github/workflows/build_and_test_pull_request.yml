@@ -7,8 +7,8 @@ jobs:
     name: Build and Test On Pull Request
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        dotnet-version: ['6.0.x', '7.0.x', '8.0.x']
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ['6.0.x', '7.0.x']
         configuration: [Debug, Release]
     runs-on: ${{ matrix.os }}
     
@@ -18,10 +18,26 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}      
-      - name: Install dependencies      
+      - name: Install workload windows
+        if: ${{ matrix.os  == 'windows-latest' }}
         run: |
-          cd AlfredFront
-          dotnet restore
+            cd AlfredFront    
+            dotnet workload install android ios wasm-tools wasm-experimental
+      - name: Install workload Linux && MacOs
+        if: ${{ matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest' }} 
+        run: |                
+            cd AlfredFront
+            dotnet workload restore            
+      - name: Install dependencies Windows    
+        if: ${{ matrix.os  == 'windows-latest' }}
+        run: |
+            cd AlfredFront
+            nuget restore AlfredFront.sln            
+      - name: Install dependencies Linus & MacOs     
+        if: ${{ matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest' }}
+        run: |
+            cd AlfredFront
+            dotnet restore
       - name: Build
         run: |
           cd AlfredFront
