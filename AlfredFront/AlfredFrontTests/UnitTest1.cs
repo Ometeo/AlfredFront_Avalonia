@@ -8,9 +8,8 @@ namespace AlfredFrontTests
     {
         [Fact]
         public void Test1()
-        {
-            MainViewModel viewModel = new MainViewModel();
-            viewModel.Title.Should().Be("Alfred");
+        {            
+            MainViewModel.Title.Should().Be("Alfred");
         }
     }
 }

@@ -9,13 +9,21 @@ using System.Runtime.Versioning;
 
 [assembly: SupportedOSPlatform("browser")]
 
-[ExcludeFromCodeCoverage]
-internal partial class Program
+namespace AlfredFront.Web
 {
-    private static void Main(string[] args) => BuildAvaloniaApp()
-        .UseReactiveUI()
-        .SetupBrowserApp("out");
+    [ExcludeFromCodeCoverage]
+    internal partial class Program
+    {
+        protected Program()
+        {
+            // Do nothing for now.
+        }
 
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>();
+        private static void Main(string[] args) => BuildAvaloniaApp()
+            .UseReactiveUI()
+            .SetupBrowserApp("out");
+
+        public static AppBuilder BuildAvaloniaApp()
+            => AppBuilder.Configure<App>();
+    }
 }
